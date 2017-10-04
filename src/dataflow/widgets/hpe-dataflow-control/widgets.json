@@ -1,0 +1,21 @@
+[{
+    "widgetId": "hpe-dataflow-control",
+    "name": "HPE Dataflow Control",
+    "description": "Control Dataflows status",
+    "author": "hpe",
+    "version": "0.1",
+    "icon": "hpe-form.png",
+    "categories": ["DATAFLOW"],
+    "domains": [],
+    "packages": [],
+    "templateUrl": "/addons/dataflow/widgets/hpe-dataflow-control/hpe-dataflow-control.tpl.html",
+    "optionsTemplateUrl": "/addons/dataflow/widgets/hpe-dataflow-control/hpe-dataflow-control.cfg.html",
+    "initTemplateUrl": "/addons/dataflow/widgets/hpe-dataflow-control/hpe-dataflow-control.init.html",
+    "toolbar": {
+        "selectors": true,
+        "refresh": true,
+        "zoom": false,
+        "control": true,
+        "launch": false
+    }
+}]

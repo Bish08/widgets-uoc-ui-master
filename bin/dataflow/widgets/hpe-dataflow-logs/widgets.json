@@ -1,0 +1,21 @@
+[{
+    "widgetId": "hpe-dataflow-logs",
+    "name": "HPE Dataflow Logs",
+    "description": "Logs Dataflows status",
+    "author": "hpe",
+    "version": "0.1",
+    "icon": "hpe-form.png",
+    "categories": ["DATAFLOW"],
+    "domains": [],
+    "packages": [],
+    "templateUrl": "/addons/dataflow/widgets/hpe-dataflow-logs/hpe-dataflow-logs.tpl.html",
+    "optionsTemplateUrl": "/addons/dataflow/widgets/hpe-dataflow-logs/hpe-dataflow-logs.cfg.html",
+    "initTemplateUrl": "/addons/dataflow/widgets/hpe-dataflow-logs/hpe-dataflow-logs.init.html",
+    "toolbar": {
+        "selectors": true,
+        "refresh": true,
+        "zoom": false,
+        "control": true,
+        "launch": false
+    }
+}]

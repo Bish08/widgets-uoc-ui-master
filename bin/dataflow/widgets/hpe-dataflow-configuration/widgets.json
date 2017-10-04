@@ -1,0 +1,21 @@
+[{
+    "widgetId": "hpe-dataflow-configuration",
+    "name": "HPE Dataflow Configuration",
+    "description": "Add dataflow form",
+    "author": "hpe",
+    "version": "0.1",
+    "icon": "hpe-form.png",
+    "categories": ["DATAFLOW"],
+    "domains": [],
+    "packages": [],
+    "templateUrl": "/addons/dataflow/widgets/hpe-dataflow-configuration/hpe-dataflow-configuration.tpl.html",
+    "optionsTemplateUrl": "/addons/dataflow/widgets/hpe-dataflow-configuration/hpe-dataflow-configuration.cfg.html",
+    "initTemplateUrl": "/addons/dataflow/widgets/hpe-dataflow-configuration/hpe-dataflow-configuration.init.html",
+    "toolbar": {
+        "selectors": true,
+        "refresh": true,
+        "zoom": false,
+        "configuration": true,
+        "launch": false
+    }
+}]

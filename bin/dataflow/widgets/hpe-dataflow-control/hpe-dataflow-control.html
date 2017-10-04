@@ -1,0 +1,304 @@
+<div class="hpe-dataflow-control-widget">
+
+	<!-- 
+		This file contains the HTML of the widget.
+		It has only one root element with a unique CSS class used only by this widget.
+		All the CSS code associated to this widget should be like:
+		
+		.hello-world-widget /*a-CSS-selector*/ {
+			/* CSS rules */
+		}
+	-->
+	<div id="alertMonitor" class="alert" style="display: none">
+		<span class="closebtn">&times;</span> WARNING! Currently Monitor
+		Module is not running. No dataflows will be automatically triggered.
+	</div>
+
+	<div id="alertMonitor2" class="alert" style="display: none">
+		<span class="closebtn">&times;</span> WARNING! Currently DataflowAPI
+		Application Server is not running. No dataflows details can be
+		retrieved.
+	</div>
+
+	<input type="button"
+		class="btn btn-primary btn-block custom-area custom-area" id="reload"
+		value="Reload Data"
+		style="width: 250px; float: right; margin-right: 25px"></input>
+
+	<table id="dataflowtable" class="display" cellspacing="0">
+		<thead>
+			<tr>
+				<th>Dataflow Id</th>
+				<th>Tasps Analysis</th>
+				<th>Next Run</th>
+				<th>Trigger Type</th>
+				<th>Last Analysis</th>
+				<th>Last Run Date</th>
+				<th>Dataflow Load Date</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+
+	</table>
+
+
+	<!-- 
+	FORM EDIT POPUP
+	-->
+
+	<div id="dialog" style="display: none" title="Edit Dataflow">
+		<form ng-submit="submit()" name="dataflowEdit">
+
+			<table style="min-width: 400px">
+				<tr style="display: none">
+					<th style="width: 180px"><label> Dataflow ID: </label></th>
+					<th><input type="text" class="custom-area" name="id"
+						ng-model="dataflowEdit.id" required></th>
+
+				</tr>
+
+				<tr>
+					<th style="width: 180px"><label> Dataflow ID: </label></th>
+					<th><input type="text" class="custom-area" name="id"
+						ng-model="dataflowEdit.dataflow_id" required></th>
+
+				</tr>
+
+				<tr>
+					<th><label> Tasps ID: </label></th>
+					<th><select class="custom-area" name="tasps_id"
+						ng-model="dataflowEdit.tasps_id"
+						ng-options="convertToInt(rows.id) as rows.label for rows in taspsList | orderBy : 'label'"
+						required>
+					</select></th>
+				</tr>
+
+				<tr>
+					<th><label> Description: </label></th>
+					<th><input type="text" class="custom-area" name="description"
+						ng-model="dataflowEdit.description" novalidate required></th>
+
+				</tr>
+
+
+				<tr>
+					<th><label> Value Pack: </label></th>
+					<th><select class="custom-area"
+						ng-model="dataflowEdit.value_pack"
+						ng-options="rows.id as rows.label for rows in valuepackList | orderBy : 'label'"
+						required>
+					</select></th>
+				</tr>
+				<tr>
+					<th><label>Last Analysis: </label></th>
+					<th><select class="custom-area" name="isLast"
+						ng-model="dataflowEdit.isLast">
+							<option value="0">No</option>
+							<option value="1">Yes</option>
+					</select></th>
+
+				</tr>
+
+				<tr>
+					<th><label> Frequency: </label></th>
+					<th><select class="custom-area" name="frequency"
+						ng-model="dataflowEdit.frequency">
+							<option value="0">Once/Day</option>
+							<option value="1">Multiple</option>
+							<option value="3">Hourly</option>
+							
+					</select></th>
+
+				</tr>
+
+				<tr>
+					<th><label> Auto Increment Date: </label></th>
+					<th><select class="custom-area" name="increment_load_date"
+						ng-model="dataflowEdit.increment_load_date">
+							<option value="0">No</option>
+							<option value="1">1 Day</option>
+					</select></th>
+
+				</tr>
+
+				<tr>
+					<th><label> Trigger Type: </label></th>
+					<th><select class="custom-area" name="trigger_type"
+						ng-model="dataflowEdit.trigger_type">
+							<option value="0">None</option>
+							<option value="1">File Availability</option>
+							<option value="2">Previous Dataflow Completition</option>
+					</select></th>
+
+				</tr>
+
+
+				<tr ng-show="dataflowEdit.trigger_type=='1'">
+					<th><label> Number of Files:</label></th>
+					<th><input type="text" class="custom-area"
+						name="number_of_files" ng-pattern="numberOfFilesFormat"
+						ng-model="dataflowEdit.number_of_files"
+						ng-required='dataflowEdit.trigger_type==1'></th>
+					<th>
+						<div style="color: red"
+							ng-show="dataflowEdit.number_of_files.$error.pattern">Must
+							be a number!</div>
+					</th>
+				</tr>
+
+				<tr ng-show="dataflowEdit.trigger_type=='1'">
+					<th><label> Folder: </label></th>
+					<th><input type="text" class="custom-area" name="folder"
+						ng-pattern="folderFormat" ng-model="dataflowEdit.folder"
+						ng-required='dataflowEdit.trigger_type==1'></th>
+					<th>
+						<div style="color: red"
+							ng-show="dataflowEdit.folder.$error.pattern">Must be a
+							valid path to a folder "\" separated!</div>
+					</th>
+				</tr>
+
+				<tr ng-show="dataflowEdit.trigger_type=='1'">
+					<th><label> Files Regexs : </label></th>
+					<th><input type="text" class="custom-area" name="files_regexs"
+						ng-pattern="regexFormat" ng-model="dataflowEdit.files_regexs"
+						ng-required='dataflowEdit.trigger_type==1'></th>
+					<th style="color: red"
+						ng-show="dataflowEdit.files_regexs.$error.pattern">Must be a
+						valid regex string (multiple regex must be semi-column separated)!
+						</div>
+				</tr>
+
+				<tr ng-show="dataflowEdit.trigger_type=='1'">
+					<th></th>
+					<th>
+						<h6>(separeted by semi-column)</h6>
+					</th>
+					</th>
+
+				</tr>
+				<tr ng-show="dataflowEdit.trigger_type=='2'">
+					<th><label> Previous Dataflows : </label></th>
+					<!-- 				<th><input type="text" class="custom-area" name="previous_dataflows" ng-pattern="dependenciesFormat" -->
+					<!-- 					ng-model="dataflowEdit.previous_dataflows"  ng-required='dataflowEdit.trigger_type==2' ></th> -->
+					<!-- 		<th>	 <div style="color:red" ng-show="dataflowEdit.previous_dataflows.$error.pattern">Must be a list of Integer semi-column separated!</div> -->
+
+					<th><select class="custom-area" multiple
+						ng-required='dataflowEdit.trigger_type==2'
+						ng-model="dataflowEdit.previous_dataflows"
+						ng-options="rows.id as rows.label for rows in taspsList | orderBy : 'label'"
+						required>
+					</select></th>
+
+				</tr>
+
+				<tr ng-show="dataflowEdit.trigger_type=='2'">
+					<th></th>
+					<th><h6>(separeted by semi-column)</h6></th>
+					</th>
+				</tr>
+
+			</table>
+			<input type="submit" ng-disabled="dataflowEdit.$invalid" id="submit"
+				class="btn btn-primary btn-block custom-area" style="width: 400px"
+				value="Save" />
+
+
+		</form>
+
+	</div>
+
+	<div id="dialogDate" style="display: none"
+		title="Edit Dataflow Load Date">
+		<form ng-submit="submit()" name="dataflowLoadDate">
+
+			<table style="min-width: 400px">
+				<tr style="display: none">
+					<th style="width: 180px"><label> Dataflow ID: </label></th>
+					<th><input type="text" class="custom-area" name="id"
+						ng-model="dataflowLoadDate.id" required novalidate></th>
+
+				</tr>
+
+				<tr>
+					<th><label> Dataflow Load Date </label></th>
+					<th><input type="text" class="custom-area" name="tasps_id"
+						ng-model="dataflowLoadDate.dataflow_load_date" novalidate></th>
+
+				</tr>
+			</table>
+			<input type="button" class="btn btn-primary btn-block custom-area"
+				ng-click="submitLoadDate()" id="submitLoadDate" value="Submit" />
+
+
+		</form>
+	</div>
+
+
+	<div id="dialogDelete" style="display: none" title="Disable Dataflow">
+		<form ng-submit="submit()" name="dataflowDelete">
+
+			<table style="min-width: 400px">
+				<tr style="display: none">
+					<th style="width: 180px"><label> Dataflow ID: </label></th>
+					<th><input type="text" class="custom-area" name="id"
+						ng-model="dataflowLoadDate.id" required novalidate></th>
+
+				</tr>
+				<tr>
+					<th><label> Are you sure to disable this dataflow from
+							Datamart console? It will be not deleted from TASPS. </label></th>
+				</tr>
+			</table>
+			<input type="button" class="btn btn-primary btn-block custom-area"
+				ng-click="submitDelete()" id="submitDelete" value="Disable" />
+
+
+		</form>
+	</div>
+	<div id="dialogRestore" style="display: none" title="Restore Dataflow">
+		<form ng-submit="submit()" name="dataflowRestore">
+			<table style="min-width: 400px">
+				<tr style="display: none">
+					<th style="width: 180px"><label> Dataflow ID: </label></th>
+					<th><input type="text" class="custom-area" name="id"
+						ng-model="dataflowRestore.id" required novalidate></th>
+
+				</tr>
+				<tr>
+					<th><label> Are you sure to restore this dataflow on
+							Datamart console? </label></th>
+
+
+				</tr>
+			</table>
+
+			<input type="button" class="btn btn-primary btn-block custom-area"
+				ng-click="submitRestore()" id="submitRestore" value="Restore" />
+
+		</form>
+	</div>
+
+	<div id="dialogStart" style="display: none"
+		title="Start Dataflow Manually">
+		<form ng-submit="submit()" name="dataflowStart">
+
+			<table style="min-width: 400px">
+				<tr style="display: none">
+					<th style="width: 180px"><label> Dataflow ID: </label></th>
+					<th><input type="text" class="custom-area" name="id"
+						ng-model="dataflowStart.id" required novalidate></th>
+
+				</tr>
+				<tr>
+					<th><label> Are you sure to start manually this
+							dataflow?</label></th>
+				</tr>
+			</table>
+			<input type="button" class="btn btn-primary btn-block custom-area"
+				ng-click="submitStart()" id="submitStart" value="Start Manually" />
+
+
+		</form>
+	</div>
+</div>

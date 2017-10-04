@@ -1,0 +1,31 @@
+/*
+	This file contains the CSS code associated to the widget hpe-hello-world.
+	All the CSS code in this file should be like:
+		
+	.hello-world-widget a-CSS-selector {
+		CSS rules
+	}
+*/
+.hpe-dataflow-configuration-widget {
+	padding-top: 15px;
+}
+
+.hpe-dataflow-configuration-widget p {
+	font-size: 1.4em;
+}
+
+.hpe-dataflow-configuration-widget .scrollable {
+	max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.custom-area {
+	width: 250px;
+ margin: 5px;
+ padding : 5px;
+}
+
+.hpe-dataflow-configuration-widget label {
+ width: 180px;
+}

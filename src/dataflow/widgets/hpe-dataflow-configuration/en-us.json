@@ -1,0 +1,15 @@
+{
+	"HPE_DATAFLOW_CONFIGURATION_WIDGET": {
+		"MESSAGE": "Hello <strong>{{name}}</strong>!!",
+		"GREET_ME": "Greet me!",
+		"GENERATE_ERROR": "Generate error",
+		"COLOR": "Color",
+		"GET_DATA": "Get data",
+
+		"MESSAGES": {
+			"ERRORS": {
+				"GENERATED_ERROR": "A new error has been generated"
+			}
+		}
+	}
+}

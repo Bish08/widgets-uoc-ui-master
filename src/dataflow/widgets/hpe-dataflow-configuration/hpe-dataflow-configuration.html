@@ -1,0 +1,159 @@
+<div class="hpe-dataflow-configuration-widget">
+	<!-- 
+		This file contains the HTML of the widget.
+		It has only one root element with a unique CSS class used only by this widget.
+		All the CSS code associated to this widget should be like:
+		
+		.hello-world-widget /*a-CSS-selector*/ {
+			/* CSS rules */
+		}
+	-->
+
+	<form ng-submit="submit()" name="dataflowConf">
+
+		<table style="min-width: 400px">
+			<tr>
+				<th style="width: 180px"><label> Dataflow ID: </label></th>
+				<th><input type="text" class="custom-area" name="id"
+					ng-model="dataflow.id" required></th>
+
+			</tr>
+
+			<tr>
+				<th><label> Tasps ID: </label></th>
+				<th><select class="custom-area" ng-model="dataflow.tasps_id"
+					ng-options="rows.id as rows.label for rows in taspsList | orderBy : 'label'"
+					required>
+				</select></th>
+			</tr>
+
+			<tr>
+				<th><label> Description: </label></th>
+				<th><input type="text" class="custom-area" name="description"
+					ng-model="dataflow.description" novalidate required></th>
+
+			</tr>
+
+			<tr>
+				<th><label> Value Pack: </label></th>
+				<th><select class="custom-area" ng-model="dataflow.valuepack"
+					ng-options="rows.id as rows.label for rows in valuepackList | orderBy : 'label'"
+					required>
+				</select></th>
+			</tr>
+			<tr>
+				<th><label>Last Analysis: </label></th>
+				<th><select class="custom-area" name="isLast"
+					ng-model="dataflow.isLast">
+						<option value="0">No</option>
+						<option value="1">Yes</option>
+				</select></th>
+
+			</tr>
+			<tr>
+				<th><label> Frequency: </label></th>
+				<th><select class="custom-area" name="frequency"
+					ng-model="dataflow.frequency">
+						<option value="0">Once/Day</option>
+						<option value="1">Multiple</option>
+				</select></th>
+
+			</tr>
+
+			<tr>
+				<th><label> Auto Increment Date: </label></th>
+				<th><select class="custom-area" name="increment_load_date"
+					ng-model="dataflow.increment_load_date">
+						<option value="0">No</option>
+						<option value="1">1 Day</option>
+				</select></th>
+
+			</tr>
+
+			<tr>
+				<th><label> Trigger Type: </label></th>
+				<th><select class="custom-area" name="trigger_type"
+					ng-model="dataflow.trigger_type">
+						<option value="0">None</option>
+						<option value="1">File Availability</option>
+						<option value="2">Previous Dataflow Completition</option>
+				</select></th>
+
+			</tr>
+
+
+			<tr ng-show="dataflow.trigger_type=='1'">
+				<th><label> Number of Files:</label></th>
+				<th><input type="text" class="custom-area"
+					name="number_of_files" ng-pattern="numberOfFilesFormat"
+					ng-model="dataflow.number_of_files"
+					ng-required='dataflow.trigger_type==1'></th>
+				<th>
+					<div style="color: red"
+						ng-show="dataflowConf.number_of_files.$error.pattern">Must
+						be a number!</div>
+				</th>
+			</tr>
+
+			<tr ng-show="dataflow.trigger_type=='1'">
+				<th><label> Folder: </label></th>
+				<th><input type="text" class="custom-area" name="folder"
+					ng-pattern="folderFormat" ng-model="dataflow.folder"
+					ng-required='dataflow.trigger_type==1'></th>
+				<th>
+					<div style="color: red"
+						ng-show="dataflowConf.folder.$error.pattern">Must be a valid
+						path to a folder (/ separated)!</div>
+				</th>
+			</tr>
+
+			<tr ng-show="dataflow.trigger_type=='1'">
+				<th><label> Files Regexs : </label></th>
+				<th><input type="text" class="custom-area" name="files_regexs"
+					ng-pattern="regexFormat" ng-model="dataflow.files_regexs"
+					ng-required='dataflow.trigger_type==1'></th>
+				<th>
+					<div style="color: red"
+						ng-show="dataflowConf.files_regexs.$error.pattern">Must be a
+						valid regex string (multiple regex must be semi-column separated)!</div>
+			</tr>
+
+			<tr ng-show="dataflow.trigger_type=='1'">
+				<th></th>
+				<th>
+					<h6>(separeted by semi-column)</h6>
+				</th>
+				</th>
+
+			</tr>
+			<tr ng-show="dataflow.trigger_type=='2'">
+				<th><label> Previous Dataflows : </label></th>
+
+				<th><select class="custom-area" multiple
+					ng-required='dataflow.trigger_type==2'
+					ng-model="dataflow.previous_dataflows"
+					ng-options="rows.id as rows.label for rows in taspsList | orderBy : 'label'"
+					required>
+				</select></th>
+
+				<!-- 				<th><input type="text" class="custom-area" name="previous_dataflows" ng-pattern="dependenciesFormat" -->
+				<!-- 					ng-model="dataflow.previous_dataflows"  ng-required='dataflow.trigger_type==2' ></th> -->
+				<!-- 		<th>	 <div style="color:red" ng-show="dataflowConf.previous_dataflows.$error.pattern">Must be a list of Integer semi-column separated!</div> -->
+
+			</tr>
+
+			<tr ng-show="dataflow.trigger_type=='2'">
+				<th></th>
+				<th><h6>(separeted by semi-column)</h6></th>
+				</th>
+			</tr>
+
+		</table>
+		<input type="submit" ng-disabled="dataflowConf.$invalid" id="submit"
+			class="btn btn-primary btn-block custom-area" style="width: 400px"
+			value="Submit" />
+
+
+	</form>
+
+</div>

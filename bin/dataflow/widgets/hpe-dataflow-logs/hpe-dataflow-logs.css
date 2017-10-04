@@ -1,0 +1,55 @@
+/*
+	This file contains the CSS code associated to the widget hpe-hello-world.
+	All the CSS code in this file should be like:
+		
+	.hello-world-widget a-CSS-selector {
+		CSS rules
+	}
+*/
+.hpe-dataflow-logs-widget {
+
+}
+
+.hpe-dataflow-logs-widget p {
+	font-size: 1.4em;
+}
+
+.hpe-dataflow-logs-widget .scrollable {
+	max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.custom-area {
+ width: 100%;
+ margin: 5px;
+ padding : 5px;
+}
+
+.hpe-dataflow-logs-widget label {
+float : left;
+margin-right: 20px;
+}
+
+.hpe-dataflow-logs-widget .alert {
+    background-color: #666666; 
+    color: white;
+    margin-bottom: 15px;
+}
+
+/* The close button */
+.hpe-dataflow-logs-widget .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.hpe-dataflow-logs-widget .closebtn:hover {
+    color: black;
+}
